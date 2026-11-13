@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumen-station-145"
+version = "0.1.0"
+description = "Hunt down social media accounts by username across social networks"
+authors = [
+  {name = "Ryan Vo", email = "ryandtvo@gmail.com"}
+]
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+dependencies = [
+  "fastapi>=0.104.0",
+  "uvicorn[standard]>=0.24.0",
+  "requests>=2.31.0",
+  "python-multipart>=0.0.11",
+]
+
+[tool.setuptools]
+packages = ["app", "tests"]
