@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "current_feature": "core-api-and-ui",
+  "features": [
+    {
+      "id": "core-api-and-ui",
+      "title": "Core API and UI skeleton",
+      "status": "in_progress",
+      "acceptance": [
+        "FastAPI /search endpoint returns results for given username",
+        "React UI can query API and display results",
+        "Install instructions and tests exist"
+      ],
+      "implementation": [
+        "app/main.py",
+        "ui/index.html"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ]
+    }
+  ]
+}
