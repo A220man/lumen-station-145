@@ -1,1 +1,67 @@
-<!DOCTYPE html>\n<html>\n<head>\n  <title>Lumen Station UI</title>\n  <style>\n    body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; }\n    .search-form { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }\n    .results { margin-top: 2rem; }\n    .result-item { margin: 0.5rem 0; }\n    .result-name { font-weight: bold; }\n    .result-url { word-break: break-all; color: #666; font-size: 0.9rem; }\n  </style>\n</head>\n<body>\n  <h1>Lumen Station</h1>\n  \n  <div class="search-form">\n    <form id="search-form">\n      <label for="username">Username:</label>\n      <input type="text" id="username" name="username" required autocomplete="off">\n      <button type="submit">Search</button>\n    </form>\n  </div>\n  \n  <div class="results" id="results"></div>\n\n  <script>\n    const form = document.getElement2Element(search-form);\n    const resultsDiv = document.getElementById("results");\n    \n    form.addEventListener("submit", async (e) => {\n      e.preventDefault();\n      const username = document.getElementById("username").value;\n      resultsDiv.innerHTML = "<p>Searching...</p>";\n      \n      try {\n        const response = await fetch(`/search?username=${encodeURIComponent(username)}`);\n        const data = await response.json();\n        resultsDiv.innerHTML = "";\n        \n        if (data.sites && data.sites.length > 0) {\n          data.sites.forEach(site => {\n            const div = document.createElement("div");\n            div.className = "result-item";\n            div.innerHTML = `<span class="result-name">${site.name}</span>: <a href="${site.url}" class="result-url" target="_blank">${site.url}</a>`;\n            resultsDiv.appendChild(div);\n          });\n        } else {\n          resultsDiv.innerHTML = "<p>No results found.</p>";\n        }\n      } catch (err) {\n        resultsDiv.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;\n      }\n    });\n  </script>\n</body>\n</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lumen Station UI</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; }
+    .search-form { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }
+    .results { margin-top: 2rem; }
+    .result-item { margin: 0.5rem 0; }
+    .result-name { font-weight: bold; }
+    .result-url { word-break: break-all; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Lumen Station</h1>
+
+  <div class="search-form">
+    <form id="search-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <script>
+    const form = document.getElementById("search-form");
+    const resultsDiv = document.getElementById("results");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      resultsDiv.innerHTML = "<p>Searching...</p>";
+
+      try {
+        const response = await fetch(`/search?username=${encodeURIComponent(username)}`);
+        const data = await response.json();
+        resultsDiv.innerHTML = "";
+
+        if (data.sites && data.sites.length > 0) {
+          data.sites.forEach(site => {
+            const div = document.createElement("div");
+            div.className = "result-item";
+            const name = document.createElement("span");
+            name.className = "result-name";
+            name.textContent = site.name;
+            const link = document.createElement("a");
+            link.className = "result-url";
+            link.href = site.url;
+            link.target = "_blank";
+            link.textContent = site.url;
+            div.appendChild(name);
+            div.appendChild(document.createTextNode(": "));
+            div.appendChild(link);
+            resultsDiv.appendChild(div);
+          });
+        } else {
+          resultsDiv.innerHTML = "<p>No results found.</p>";
+        }
+      } catch (err) {
+        resultsDiv.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
